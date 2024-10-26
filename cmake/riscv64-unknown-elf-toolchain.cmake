@@ -1,0 +1,38 @@
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_PROCESSOR riscv64)
+
+set(CMAKE_C_COMPILER riscv64-unknown-elf-gcc)
+set(CMAKE_CXX_COMPILER riscv64-unknown-elf-g++)
+set(CMAKE_ASM_COMPILER riscv64-unknown-elf-gcc)
+
+execute_process(
+  COMMAND ${CMAKE_C_COMPILER} --print-sysroot
+  OUTPUT_VARIABLE CMAKE_SYSROOT
+  OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+if(NOT CMAKE_SYSROOT)
+  message(
+    FATAL_ERROR
+      "Failed to detect sysroot using ${CMAKE_C_COMPILER} --print-sysroot")
+else()
+  message(STATUS "Detected sysroot: ${CMAKE_SYSROOT}")
+endif()
+
+set(CMAKE_C_FLAGS
+    "-march=rv64imac_zicsr -mabi=lp64 -mcmodel=medany -ffreestanding -nostdlib"
+)
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
+set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS}")
+
+set(CMAKE_SYSTEM_INCLUDE_PATH "")
+set(CMAKE_NO_SYSTEM_FROM_IMPORTED ON)
+
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+set(CMAKE_C_COMPILER_WORKS 1)
+set(CMAKE_CXX_COMPILER_WORKS 1)
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)

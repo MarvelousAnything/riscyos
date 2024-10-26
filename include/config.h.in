@@ -1,0 +1,7 @@
+#pragma once
+
+#cmakedefine ENABLE_UART_DRIVER 1
+#cmakedefine ENABLE_VIDEO_DRIVER 1
+#cmakedefine ENABLE_DEBUG 1
+
+#define KERNEL_VERSION "@PROJECT_VERSION@"
